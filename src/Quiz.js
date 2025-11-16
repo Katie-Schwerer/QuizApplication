@@ -5,6 +5,14 @@ import { answerQuestion, resetQuiz } from './store';
 import QuizDetails from './QuizDetails';
 
 const Quiz = () => {
+    const { questions, currentQuestionIndex, score } = useSelector((state) => state.quiz);
+    const currentQuestion = questions[currentQuestionIndex];
+    const dispatch = useDispatch();
+    const handleAnswer = (answer) => {
+        dispatch(answerQuestion(answer));
+    };
+
+    
 
   return (
     <ImageBackground 
@@ -14,8 +22,9 @@ const Quiz = () => {
       <ScrollView contentContainerStyle={styles.container}>
     <QuizDetails/>
         <View style={styles.questionContainer}>
-          <Text style={styles.questionText}></Text>
+          <Text style={styles.questionText}>{currentQuestion.question}</Text>
           <View style={styles.buttonContainer}>
+            {currentQuestion.options.map((option) => (<Button key={option} title={option} onPress={() => handleAnswer(option)} color="#FF4081" />))}
           </View>
         </View>
       </ScrollView>
